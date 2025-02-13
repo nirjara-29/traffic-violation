@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Traffic Violation Reporter</title>
+    <meta name="description" content="Report traffic violations and help maintain road safety" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="hero-section">
+        <div class="icon-wrapper">
+          <i data-lucide="shield" class="icon-shield"></i>
+          <div class="alert-badge">
+            <i data-lucide="alert-triangle" class="icon-alert"></i>
+          </div>
+        </div>
+        
+        <h1 class="title">Traffic Violation Reporter</h1>
+        
+        <p class="subtitle">
+          Join us in making our roads safer. Report traffic violations and help authorities maintain order and safety in our community.
+        </p>
+        
+        <div class="button-group">
+          <a href="report.html" class="button button-primary">
+            <i data-lucide="alert-triangle" class="button-icon"></i>
+            Report Violation
+          </a>
+          
+          <a href="admin.html" class="button button-outline">
+            <i data-lucide="badge-check" class="button-icon"></i>
+            Admin Login
+          </a>
+        </div>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <i data-lucide="shield" class="feature-icon"></i>
+          </div>
+          <h3 class="feature-title">Quick Reporting</h3>
+          <p class="feature-description">Submit violations easily with our streamlined reporting system</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <i data-lucide="alert-triangle" class="feature-icon"></i>
+          </div>
+          <h3 class="feature-title">Real-time Updates</h3>
+          <p class="feature-description">Track the status of your reported violations instantly</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <i data-lucide="badge-check" class="feature-icon"></i>
+          </div>
+          <h3 class="feature-title">Secure Platform</h3>
+          <p class="feature-description">Your reports are handled with utmost confidentiality</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      lucide.createIcons();
+    </script>
+    <script src="main.js"></script>
+  </body>
+</html>
