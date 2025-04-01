@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Report Violation - Traffic Watchdog</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="form.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <a href="index.html" class="back-link">
+          <i data-lucide="arrow-left"></i>
+        </a>
+        <div class="card-header">
+          <i data-lucide="shield" class="card-icon"></i>
+          <h1 class="card-title">Report Traffic Violation</h1>
+          <p class="card-description">Help maintain road safety by reporting violations</p>
+        </div>
+        
+        <form id="reportForm" class="form">
+          <div class="form-group">
+            <label for="violationType">Violation Type</label>
+            <select id="violationType" required>
+              <option value="">Select violation type</option>
+              <option value="parking">Illegal Parking</option>
+              <option value="wrong_side">Wrong Side Driving</option>
+              <option value="accident">Accident</option>
+              <option value="road_rage">Road Rage</option>
+              <option value="oil_spill">Oil Spill</option>
+              <option value="signal_jump">Signal Jump</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="vehicleNumber">Vehicle Number</label>
+            <input type="text" id="vehicleNumber" placeholder="Enter vehicle number" required>
+          </div>
+
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" placeholder="Location will appear" required>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" placeholder="Provide detailed description of the violation" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Evidence (Photo)</label>
+            <input type="file" id="photoUpload" accept="image/*" required>
+          </div>
+
+          <button type="submit" class="submit-button">Submit Report</button>
+        </form>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+      import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+      import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
+
+      // Firebase Configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAf5QAoIoOZaw4UJXUR8OvDyDYG7RIk0vk",
+  authDomain: "trafficwatchdog.firebaseapp.com",
+  databaseURL: "https://trafficwatchdog-default-rtdb.firebaseio.com",
+  projectId: "trafficwatchdog",
+  storageBucket: "trafficwatchdog.firebasestorage.app",
+  messagingSenderId: "81561580519",
+  appId: "1:81561580519:web:21336f229568accae2c342",
+  measurementId: "G-P3BHCQR27F"
+};
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+      const storage = getStorage(app);
+
+      document.getElementById("reportForm").addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          let violationType = document.getElementById("violationType").value;
+          let vehicleNumber = document.getElementById("vehicleNumber").value;
+          let location = document.getElementById("location").value;
+          let description = document.getElementById("description").value;
+          let photoFile = document.getElementById("photoUpload").files[0];
+
+          let newViolationRef = push(ref(db, "violations"));
+          let violationID = newViolationRef.key;
+
+          let photoURL = "";
+          if (photoFile) {
+              const imageRef = storageRef(storage, `images/${violationID}`);
+              await uploadBytes(imageRef, photoFile);
+              photoURL = await getDownloadURL(imageRef);
+          }
+
+          set(newViolationRef, {
+              violationType: violationType,
+              vehicleNumber: vehicleNumber,
+              location: location,
+              description: description,
+              photoURL: photoURL,
+              timestamp: new Date().toISOString()
+          }).then(() => {
+              Swal.fire("Success!", "Violation Reported Successfully!", "success");
+              document.getElementById("reportForm").reset();
+          }).catch((error) => {
+              console.error("Error: ", error);
+          });
+      });
+    </script>
+  </body>
+</html>
