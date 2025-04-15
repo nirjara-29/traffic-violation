@@ -1,4 +1,4 @@
-
+/*
 .card {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
@@ -15,12 +15,12 @@
   position: absolute;
   top: 1rem;
   left: 1rem;
-  /*color: #e9d5ff;*/
+  //color: #e9d5ff;
   color:white;
   transition: color 0.2s;
 }
 .back-link:hover {
- /* color: #d8b4fe;*/
+ // color: #d8b4fe;
  color:white;
 }
 .card-header {
@@ -37,7 +37,7 @@
 
 .card-title {
   font-size: 1.5rem;
-  /*color: #e9d5ff;*/
+  //color: #e9d5ff;
   color:white;
   margin-bottom: 0.5rem;
 }
@@ -59,7 +59,7 @@
 }
 
 label {
-  /*color: #e9d5ff;*/
+  //color: #e9d5ff;
   color:white;
   font-size: 0.875rem;
 }
@@ -160,6 +160,272 @@ textarea {
   cursor: not-allowed;
 }
 
+// Toast notifications 
+.toast-container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 1000;
+}
+
+.toast {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a1a1a;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(100%);
+  opacity: 0;
+  transition: all 0.3s;
+}
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.toast-success {
+  background: linear-gradient(to right, #22c55e, #16a34a);
+  color: white;
+}
+
+.toast-error {
+  background: linear-gradient(to right, #ef4444, #dc2626);
+  color: white;
+}
+*/
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(216, 180, 254, 0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  max-width: 32rem;
+  margin: 2rem auto;
+  position: relative;
+}
+
+.back-link {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: white;
+  transition: color 0.2s;
+}
+.back-link:hover {
+  color: white;
+}
+.card-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.card-icon {
+  width: 3rem;
+  height: 3rem;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.card-description {
+  color: rgba(229, 229, 229, 0.7);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  color: white;
+  font-size: 0.875rem;
+}
+
+input,
+select,
+textarea {
+  background-color: white;
+  border: 1px solid rgba(216, 180, 254, 0.2);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: #0b0b0b;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: rgba(216, 180, 254, 0.4);
+  box-shadow: 0 0 0 2px rgba(216, 180, 254, 0.1);
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.input-icon {
+  position: relative;
+}
+
+.input-icon input {
+  padding-right: 2.5rem;
+}
+
+.input-icon i {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgba(216, 180, 254, 0.5);
+}
+
+.file-upload {
+  border: 2px dashed rgba(216, 180, 254, 0.2);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.preview-container {
+  cursor: pointer;
+}
+
+.upload-icon {
+  width: 3rem;
+  height: 3rem;
+  color: rgba(216, 180, 254, 0.5);
+  margin-bottom: 1rem;
+}
+
+.file-hint {
+  color: rgba(229, 229, 229, 0.5);
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+#file-upload {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.submit-button {
+  background: linear-gradient(to right, #a855f7, #7e22ce);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Plate detection styles */
+.plate-input-group {
+  position: relative;
+}
+
+.plate-preview {
+  margin-top: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: white;
+  border: 1px solid rgba(216, 180, 254, 0.2);
+}
+
+.plate-preview strong {
+  color: #d8b4fe;
+}
+
+.location-confidence {
+  margin-top: 8px;
+  font-size: 0.85em;
+  color: rgba(229, 229, 229, 0.7);
+}
+
+.photo-tip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  font-size: 0.85em;
+  color: rgba(229, 229, 229, 0.7);
+}
+
+.photo-tip i {
+  width: 16px;
+  height: 16px;
+  color: rgba(216, 180, 254, 0.5);
+}
+
+.terms-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.terms-group input {
+  width: auto;
+}
+
+.loading-spinner {
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top: 2px solid #a855f7;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* Toast notifications */
 .toast-container {
   position: fixed;
@@ -196,7 +462,82 @@ textarea {
   color: white;
 }
 
+/* Highlight effect for drag and drop */
+.highlight {
+  border-color: #a855f7 !important;
+  background-color: rgba(168, 85, 247, 0.1) !important;
+}
+
+/* Remove image button in preview */
+.remove-image {
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  transition: all 0.2s;
+}
+
+.remove-image:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .card {
+    padding: 1.5rem;
+    margin: 1rem auto;
+  }
+  
+  .form {
+    gap: 1rem;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+  }
+  
+  .plate-preview, 
+  .location-confidence,
+  .photo-tip {
+    font-size: 0.8em;
+  }
+}
 
 
+/* Add these styles */
+.loading-icon {
+  animation: spin 1s linear infinite;
+}
 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 
+.image-preview {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+}
+
+.remove-image {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}

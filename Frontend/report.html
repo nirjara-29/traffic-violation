@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,16 +9,9 @@
     <title>Report Violation - Traffic Watchdog</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="form.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
-   
-
-  
-
-
+    <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
     <div class="container">
@@ -32,8 +27,8 @@
         
         <form id="violation-form" class="form">
           <div class="form-group">
-            <label for="violation-type">Violation Type</label>
-            <select id="violation-type" required>
+            <label for="violation-type"><h3>Violation Type</h3></label>
+            <select id="violation-type" name="violation-type" required>
               <option value="">Select violation type</option>
               <option value="parking">Illegal Parking</option>
               <option value="wrong_side">Wrong Side Driving</option>
@@ -45,40 +40,52 @@
           </div>
 
           <div class="form-group">
-            <label for="vehicle-number">Vehicle Number</label>
-            <input type="text" id="vehicle-number" placeholder="Enter vehicle number">
+            <label for="plate-number-input">Plate Number:</label>
+<input id="plate-number-input" type="text" readonly>
+
+            <!--<label for="plate-number"><h3>Vehicle Number Plate</h3></label>
+            <div class="plate-input-group">
+              <input type="text" id="plate-number" name="plate-number" placeholder="License plate will be auto-detected" required>
+            </div>-->
           </div>
 
           <div class="form-group">
-            <label for="location">Location</label>
+            <label for="location"><h3>Your Current Location</h3></label>
             <div class="input-icon">
-              <input type="text" id="location-box" placeholder="Location will appear here" readonly>
-              <button id="get-location-button"><i data-lucide="map-pin"></i></button>
+              <input type="text" id="location-box" placeholder="Click the button to get your location" readonly>
+              <button type="button" id="get-location-button"><i data-lucide="map-pin"></i></button>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" placeholder="Provide detailed description of the violation" required></textarea>
+            <label for="description"><h3>Description</h3></label>
+            <textarea id="description" name="description" placeholder="Provide detailed description of the violation" required></textarea>
           </div>
 
           <div class="form-group">
-            <label>Evidence (Photo)</label>
+            <label><h3>Evidence (Photo)</h3></label>
             <div class="file-upload">
               <div id="preview-container" class="preview-container">
                 <i data-lucide="camera" class="upload-icon"></i>
                 <p>Click to upload or drag and drop</p>
                 <p class="file-hint">PNG, JPG up to 10MB</p>
               </div>
-              <input type="file" id="file-upload" accept="image/*" required>
+              <input type="file" id="file-upload" name="evidence-photo" accept="image/*" capture="environment" required>
+            </div>
+            <div class="photo-tip">
+              <i data-lucide="info"></i> Tip: Ensure the license plate is clearly visible in the photo
             </div>
           </div>
 
           <div class="form-group">
-            <label for="photo-location-box">Photo Location</label>
+            <label for="photo-location-box"><h3>Photo Location Data</h3></label>
             <input type="text" id="photo-location-box" placeholder="Photo location will appear here" readonly>
           </div>
           
+          <div class="form-group terms-group">
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms">I confirm that this report is accurate and submitted in good faith</label>
+          </div>
 
           <button type="submit" class="submit-button">
             <span class="button-text">Submit Report</span>
@@ -87,11 +94,16 @@
       </div>
     </div>
 
+    <!-- Firebase links -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="form.js" type="module" defer></script>
     <script>
       lucide.createIcons();
     </script>
-    <script src="form.js"></script>
   </body>
 </html>
-
-

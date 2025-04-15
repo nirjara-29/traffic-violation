@@ -100,6 +100,16 @@
       lucide.createIcons();
     </script>
     <script src="main.js"></script>
+    <script>
+      // Check authentication state on page load
+      document.addEventListener('DOMContentLoaded', () => {
+        const isAuthenticated = sessionStorage.getItem("isAuthenticated");
+        if (isAuthenticated) {
+          document.getElementById("login-btn").style.display = "none";
+          document.getElementById("logout-btn").style.display = "block";
+        }
+      });
+    </script>
   </body>
 </html>
 

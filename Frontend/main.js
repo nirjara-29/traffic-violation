@@ -75,11 +75,14 @@ document.getElementById("login-btn").addEventListener("click", async () => {
 });
 
 document.getElementById("logout-btn").addEventListener("click", async () => {
-    await auth0Client.logout({ logoutParams: { returnTo: window.location.origin } });
+    await auth0Client.logout({ 
+      logoutParams: { returnTo: window.location.origin } 
+    });
     document.getElementById("login-btn").style.display = "block";
     document.getElementById("logout-btn").style.display = "none";
     sessionStorage.removeItem("isAuthenticated");
-});
+    sessionStorage.removeItem("userRole"); // Clear admin role if set
+  });
 
 const reportButton = document.querySelector('a[href="report.html"]');
 reportButton.addEventListener('click', (e) => {

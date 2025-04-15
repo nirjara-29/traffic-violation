@@ -90,6 +90,11 @@
     color: #888;
     padding: 2rem;
   }
+
+  #reports-body {
+    display: table-row-group !important; /* Forces visibility */
+  }
+
  
   /* Badge styling for locations */
   .location-badge {

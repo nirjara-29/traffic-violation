@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+/*document.addEventListener('DOMContentLoaded', function() {
     // Sample report data
     // const reports = [
     //   {
@@ -68,3 +68,60 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
 
+*/
+
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const tableBody = document.getElementById('reports-body');
+    
+    // Initialize Firebase (make sure you've included Firebase SDK in allreports.html)
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+    
+    // Initialize Firebase if not already initialized
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    
+    const db = firebase.firestore();
+
+    // Fetch reports from Firestore
+    db.collection("reports").orderBy("timestamp", "desc").get()
+        .then((querySnapshot) => {
+            tableBody.innerHTML = ''; // Clear loading message
+            
+            querySnapshot.forEach((doc, index) => {
+                const report = doc.data();
+                const row = document.createElement('tr');
+                row.className = 'row-animate';
+                row.style.animationDelay = `${index * 100}ms`;
+                
+                const reportDate = report.timestamp?.toDate() || new Date();
+                const formattedDate = reportDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${report.violationType || 'Unknown violation'}</td>
+                    <td>${report.location || 'Location not specified'}</td>
+                    <td>${formattedDate}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        })
+        .catch((error) => {
+            tableBody.innerHTML = `<tr><td colspan="4">Error loading reports: ${error.message}</td></tr>`;
+            console.error("Error getting reports: ", error);
+        });
+});
