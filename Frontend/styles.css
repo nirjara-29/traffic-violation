@@ -1,0 +1,291 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #2e0066, #6a0dad);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Top Bar for Sign in Button */
+.top-bar {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+
+/*change in below auth-button*/
+.auth-button {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 12px 30px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+
+.auth-button:hover {
+  background: white;
+  color: #6a0dad;
+}
+
+
+.logout {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+}
+
+
+.logout:hover {
+  background: white;
+  color: #6a0dad;
+}
+
+
+/*upto here change(.logout:hover)*/
+
+
+/* Center Content */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* Hero Section */
+.hero-section {
+  max-width: 600px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+
+.icon-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+
+.icon-shield {
+  font-size: 80px;
+}
+
+
+.alert-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: red;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+
+.title {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+
+.subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin-top: 10px;
+  max-width: 500px;
+}
+
+
+/* Buttons */
+.button-group {
+  margin-top: 20px;
+}
+
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 500;
+  transition: 0.3s;
+  margin: 10px;
+}
+
+
+.button-primary {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+}
+
+
+.button-primary:hover {
+  background: white;
+  color: #6a0dad;
+}
+
+
+.button-outline {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+}
+
+
+.button-outline:hover {
+  background: white;
+  color: #6a0dad;
+}
+
+
+.button-icon {
+  margin-right: 8px;
+}
+
+
+/* Features Grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 800px;
+  margin-top: 30px;
+}
+
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+
+.feature-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+
+.feature-icon-wrapper {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+
+
+  .button {
+    width: 100%;
+  }
+
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/*pop up after sign in*/
+
+.popup-content {
+  background: #6a0dad;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+  color: black;
+}
+
+
+.popup-details ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.popup-details li {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  margin: 10px 0;
+  color: #333;
+}
+
+.popup-details li::before {
+  content: "✔️";
+  margin-right: 8px;
+  font-size: 18px;
+  color: green;
+}
+
+
+.popup-content .close-btn {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #6a0dad;;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Pop-up box */
+.popup-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+  color: black;
+}
+
+
+

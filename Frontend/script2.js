@@ -1,127 +1,91 @@
-/*document.addEventListener('DOMContentLoaded', function() {
-    // Sample report data
-    // const reports = [
-    //   {
-    //     id: 1,
-    //     description: "Server outage in production environment",
-    //     location: "AWS East Region",
-    //     date: "2023-05-14"
-    //   },
-    //   {
-    //     id: 2,
-    //     description: "Database connection timeout",
-    //     location: "Data Center 3",
-    //     date: "2023-05-12"
-    //   },
-    //   {
-    //     id: 3,
-    //     description: "User authentication failed multiple times",
-    //     location: "Auth Service",
-    //     date: "2023-05-10"
-    //   },
-    //   {
-    //     id: 4,
-    //     description: "Network latency increased by 300%",
-    //     location: "CDN Edge Servers",
-    //     date: "2023-05-07"
-    //   },
-    //   {
-    //     id: 5,
-    //     description: "API rate limiting triggered",
-    //     location: "Gateway Service",
-    //     date: "2023-05-05"
-    //   }
-    // ];
- 
-    // Reference to table body
-    const tableBody = document.getElementById('reports-body');
- 
-    // Simulate loading delay
-    setTimeout(() => {
-      // Clear loading message
-      tableBody.innerHTML = '';
-     
-      // Populate table with report data
-      reports.forEach((report, index) => {
-        const row = document.createElement('tr');
-        row.className = 'row-animate';
-        row.style.animationDelay = `${index * 100}ms`; // Stagger animation
-       
-        // Format date for display
-        const reportDate = new Date(report.date);
-        const formattedDate = reportDate.toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        });
-       
-        row.innerHTML = `
-          <td>${report.id}</td>
-          <td>${report.description}</td>
-          <td><span class="location-badge">${report.location}</span></td>
-          <td>${formattedDate}</td>
-        `;
-       
-        tableBody.appendChild(row);
+
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const tableBody = document.getElementById('reports-body');
+  const modal = document.getElementById('report-modal');
+  const modalBody = document.getElementById('modal-body');
+  const closeModalButton = document.getElementById('close-modal');
+
+  try {
+    // Fetch reports from backend
+    const response = await fetch('http://localhost:5000/api/get-reports');
+    const result = await response.json();
+
+    if (!result.success || !result.reports) {
+      throw new Error('Failed to fetch reports');
+    }
+
+    if (result.reports.length === 0) {
+      tableBody.innerHTML = `<tr><td colspan="5">No reports available</td></tr>`;
+      return;
+    }
+
+    tableBody.innerHTML = ''; // Clear loading message
+
+    result.reports.forEach((report, index) => {
+      const date = report.timestamp ? new Date(report.timestamp).toLocaleString() : 'Unknown Date';
+
+      // Generate table row (excluding Status and Image columns)
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${report.plateNumber || 'N/A'}</td>
+        <td>${report.violationType || 'Unknown'}</td>
+        <td>${report.location || 'Not specified'}</td>
+        <td>${date}</td>
+      `;
+
+      // Add click event to display modal
+      row.addEventListener('click', () => {
+        showModal(report);
       });
-    }, 1000); // 1 second delay to simulate loading
+
+      tableBody.appendChild(row);
+    });
+  } catch (error) {
+    console.error('Error fetching reports:', error);
+    tableBody.innerHTML = `<tr><td colspan="5">Error loading reports: ${error.message}</td></tr>`;
+  }
+
+  // Function to populate and show the modal
+  function showModal(report) {
+    const modalContent = `
+      <p><strong>Plate Number:</strong> ${report.plateNumber || 'N/A'}</p>
+      <p><strong>Violation Type:</strong> ${report.violationType || 'Unknown'}</p>
+      <p><strong>Location:</strong> ${report.location || 'Not specified'}</p>
+      <p><strong>Date:</strong> ${report.timestamp ? new Date(report.timestamp).toLocaleString() : 'Unknown Date'}</p>
+      <p><strong>Description:</strong> ${report.description || 'No description'}</p>
+      <p><strong>Evidence:</strong></p>
+      ${
+        report.evidencePhoto
+          ? `<img src="${report.evidencePhoto}" alt="Evidence Image" style="max-width: 100%; border-radius: 8px;">`
+          : '<p>No image available</p>'
+          
+
+      }
+    `;
+    console.log("Image URL being used:", report.evidencePhoto);
+  
+    console.log("Modal content:", modalContent); // Check the HTML being inserted
+    modalBody.innerHTML = modalContent;
+    modal.style.display = 'block'; // Show the modal
+  }
+  
+
+  
+
+ 
+
+  // Close modal functionality
+  closeModalButton.addEventListener('click', () => {
+    modal.style.display = 'none'; // Hide the modal
   });
 
-
-*/
-
-
-
-  document.addEventListener('DOMContentLoaded', function() {
-    const tableBody = document.getElementById('reports-body');
-    
-    // Initialize Firebase (make sure you've included Firebase SDK in allreports.html)
-    const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_AUTH_DOMAIN",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_STORAGE_BUCKET",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
-    };
-    
-    // Initialize Firebase if not already initialized
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
+  // Close modal when clicking outside the content
+  window.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      modal.style.display = 'none'; // Hide the modal
     }
-    
-    const db = firebase.firestore();
-
-    // Fetch reports from Firestore
-    db.collection("reports").orderBy("timestamp", "desc").get()
-        .then((querySnapshot) => {
-            tableBody.innerHTML = ''; // Clear loading message
-            
-            querySnapshot.forEach((doc, index) => {
-                const report = doc.data();
-                const row = document.createElement('tr');
-                row.className = 'row-animate';
-                row.style.animationDelay = `${index * 100}ms`;
-                
-                const reportDate = report.timestamp?.toDate() || new Date();
-                const formattedDate = reportDate.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                });
-                
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${report.violationType || 'Unknown violation'}</td>
-                    <td>${report.location || 'Location not specified'}</td>
-                    <td>${formattedDate}</td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
-        })
-        .catch((error) => {
-            tableBody.innerHTML = `<tr><td colspan="4">Error loading reports: ${error.message}</td></tr>`;
-            console.error("Error getting reports: ", error);
-        });
+  });
 });

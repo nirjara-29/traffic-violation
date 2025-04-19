@@ -62,11 +62,23 @@ app.post("/api/upload-photo", upload.single("photo"), async (req, res) => {
         });
 
         blobStream.on("finish", async () => {
-            const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-            console.log("Uploaded photo URL:", publicUrl);
-            res.status(200).json({ success: true, photoURL: publicUrl });
+            try {
+                const fileRef = bucket.file(file.originalname);
+        
+                // Generate a valid signed URL
+                const [url] = await fileRef.getSignedUrl({
+                    action: "read",
+                    expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // URL valid for 7 days
+                });
+        
+                console.log("Generated signed URL:", url);
+                res.status(200).json({ success: true, photoURL: url });
+            } catch (error) {
+                console.error("Error generating signed URL:", error);
+                res.status(500).json({ success: false, error: "Failed to generate image URL." });
+            }
         });
-
+        
         blobStream.end(file.buffer); // Upload the file buffer
     } catch (error) {
         console.error("Error uploading photo:", error);

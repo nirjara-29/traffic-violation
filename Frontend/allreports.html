@@ -1,54 +1,5 @@
 
-<!--
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submitted Reports</title>
-    <link rel="stylesheet" href="styles2.css">
-     Add Firebase SDK 
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
-  </head>
-<body>
-  <div class="container">
-    <header>
-      <h1>Submitted Reports</h1>
-      <p>A comprehensive view of all submitted reports across the system</p>
-    </header>
 
-    <main>
-      <div class="table-container">
-        <table id="reports-table">
-          <thead>
-            <tr>
-              <th>Serial No.</th>
-              <th>Report Type</th>
-              <th>Report Location</th>
-              <th>Report Date</th>
-            </tr>
-          </thead>
-          <tbody id="reports-body">
-            <tr class="loading-row">
-              <td colspan="4">Loading reports...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </main>
-
-    <footer>
-      <p>&copy; 2023 Report Management System</p>
-    </footer>
-  </div>
-
-  <script src="script2.js"></script>
-</body>
-</html>
-
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,8 +25,6 @@
               <th>Violation</th>
               <th>Location</th>
               <th>Date</th>
-              <th>Status</th>
-              <th>Image</th>
             </tr>
           </thead>
 
@@ -88,58 +37,22 @@
       </div>
     </main>
 
+    <!-- Modal for viewing full report -->
+    <div id="report-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+        <h2>Report Details</h2>
+        <div id="modal-body">
+          <!-- Report details will be dynamically injected here -->
+        </div>
+      </div>
+    </div>
+
     <footer>
       <p>&copy; 2025 Traffic Watchdog System</p>
     </footer>
   </div>
 
-  <script>
-    console.log("Script is executing!");
-    document.addEventListener('DOMContentLoaded', async () => {
-      const tableBody = document.getElementById('reports-body');
-      
-      try {
-        // Call your backend API endpoint
-        const response = await fetch('http://localhost:5000/api/get-reports');
-        const result = await response.json();
-
-        if (!result.success || !result.reports) {
-          throw new Error('Failed to fetch reports');
-        }
-
-        if (result.reports.length === 0) {
-          tableBody.innerHTML = `<tr><td colspan="7">No reports available</td></tr>`;
-          return;
-        }
-
-        tableBody.innerHTML = ''; // Clear loading message
-
-        result.reports.forEach((report, index) => {
-          const date = report.timestamp ? new Date(report.timestamp) : new Date();
-          const row = `
-          <tr>
-            <td>${index + 1}</td>
-            <td>${report.plateNumber || 'N/A'}</td>
-            <td>${report.violationType || 'Unknown'}</td>
-            <td>${report.location || 'Not specified'}</td>
-            <td>${date.toLocaleString()}</td>
-            <td>${report.description || 'No description'}</td>
-            <td>
-              ${report.evidencePhoto ? 
-                `<a href="${report.evidencePhoto}" target="_blank">View</a>` : 
-                'No image'}
-            </td>
-          </tr>
-        `;
-        tableBody.innerHTML += row;
-      });
-    } catch (error) {
-      console.error('Error fetching reports:', error);
-      tableBody.innerHTML = `<tr><td colspan="7">Error loading reports: ${error.message}</td></tr>`;
-    }
-  });
-
-  
-  </script>
+  <script src="script2.js"></script>
 </body>
 </html>
