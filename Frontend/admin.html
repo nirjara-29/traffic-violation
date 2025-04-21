@@ -13,7 +13,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
+      /*document.addEventListener('DOMContentLoaded', () => {
         // Check if the user is on the admin login page
         if (window.location.href.indexOf("admin.html") !== -1) {
           // Don't validate the session on the login page itself
@@ -25,7 +25,54 @@
           console.error("Admin session not validated.");
           window.location.href = "admin.html"; // Redirect to login page
         }
-      });
+      });*/
+      
+        document.addEventListener('DOMContentLoaded', () => {
+          // Check if the user is on the admin login page
+          if (window.location.href.indexOf("admin.html") !== -1) {
+            document.getElementById("loginForm").addEventListener("submit", (e) => {
+              e.preventDefault(); // Prevent form submission reload
+      
+              // Get user input from the form
+              const email = document.getElementById("username").value;
+              const password = document.getElementById("password").value;
+      
+              // Firebase login authentication
+              firebase.auth().signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                  const user = userCredential.user;
+      
+                  // Check if the logged-in user is admin
+                  if (user.email === "admin11@gmail.com") {
+                    // Set admin session in sessionStorage
+                    sessionStorage.setItem("isAdmin", "true");
+                    console.log("Admin logged in");
+      
+                    // Display success message
+                    document.getElementById("successDialog").style.display = "block";
+                  } else {
+                    alert("Access denied. Only admins can log in.");
+                    firebase.auth().signOut(); // Log out non-admin users
+                  }
+                })
+                .catch((error) => {
+                  // Show error message
+                  console.error("Login failed:", error.message);
+                  document.getElementById("errorMessage").innerText = error.message;
+                  document.getElementById("errorAlert").style.display = "block";
+                });
+            });
+          } else {
+            // Validate admin session only for other pages (like the dashboard)
+            const isAdmin = sessionStorage.getItem("isAdmin");
+            if (isAdmin !== "true") {
+              console.error("Admin session not validated.");
+              window.location.href = "admin.html"; // Redirect to login page
+            }
+          }
+        });
+      
+      
     </script>
     
     
